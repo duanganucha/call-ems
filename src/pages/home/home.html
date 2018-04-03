@@ -1,0 +1,92 @@
+  <ion-header>
+    <ion-navbar color="primary">
+      <ion-buttons start>
+        <button ion-button icon-only (click)="onLocation()">
+          <ion-icon name="ios-navigate-outline"></ion-icon>
+        </button>
+      </ion-buttons>
+
+      <ion-title>
+        แจ้งเหตุผู้ป่วยฉุกเฉิน
+      </ion-title>
+
+      <ion-buttons end>
+          <button ion-button icon-only (click)="onRefresh()">
+            <ion-icon name="refresh"></ion-icon>
+          </button>
+        </ion-buttons>
+
+
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content >
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+    
+
+
+            <!-- -------------Location------------------- -->
+            <ion-item-group >
+              <ion-item-divider color="light" ><p>สถานที่ของคุณ</p></ion-item-divider>
+              <agm-map 
+              style="height:130px;"
+              [latitude]="location.lat" 
+              [longitude]="location.lng" 
+              [zoom]="16"
+              center = "locationRio"
+              gestureHandling = 'none'
+              >
+                <agm-marker
+                [latitude]="location.lat" 
+                [longitude]="location.lng"
+                [iconUrl]="'assets/imgs/marker.png'"
+                >
+                  <agm-info-window>Börk
+                      <a (click)="onClickInfoView()" class="btn btn-attention pull-right">Daje <i class="fa fa-angle-double-right"></i></a>
+
+                  </agm-info-window>
+              </agm-marker>
+              </agm-map>
+            </ion-item-group>
+
+    
+      <!-- -------------Camera Photo------------------- -->
+
+      <ion-item-group >
+        
+        <ion-item-divider color="light"><p>ภาพถ่าย</p></ion-item-divider>
+              <img [src]="base64Image" (click)="OnTakePhoto()"  class="center">
+              <button ion-button 
+              *ngIf="base64Image == 'assets/imgs/camera.png'" 
+              icon-left 
+              block 
+              outline small
+              type="button" 
+              (click)="OnTakePhoto()">
+              <ion-icon name="camera"></ion-icon>
+              ถ่ายภาพ
+              </button>
+      </ion-item-group>
+    
+        <!-- -------------Text------------------- -->
+
+        <ion-item-group>
+          <ion-item-divider color="light"><p>เบอร์โทรติดต่อกลับ</p></ion-item-divider>
+          <ion-input type="tel" color="primary" placeholder="Tel : __________"  maxlength="10"  ></ion-input>
+        </ion-item-group>
+
+
+
+    </form>
+
+  </ion-content>
+
+  <ion-footer >
+      <ion-toolbar align="center">
+          <button ion-button icon-only (click)="onRefresh()" color="danger" >
+              <ion-icon name="md-call">โทรแจ้งเหตุ</ion-icon>
+            </button>
+      </ion-toolbar>
+    </ion-footer>
